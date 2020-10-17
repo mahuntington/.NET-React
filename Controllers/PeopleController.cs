@@ -12,13 +12,31 @@ namespace contacts.Controllers
     public class PeopleController : ControllerBase
     {
         [HttpGet]
+        // public Person[] Get()
         public Person[] Get()
         {
-            Person p1 = new Person(1, "Matt", 40);
-            Person p2 = new Person(2, "Sally", 32);
-            Person p3 = new Person(3, "Zagthrop", 834);
-            // Console.WriteLine(p1.name);
-            return new Person[] { p1, p2, p3 };
+            using (var db = new PeopleContext())
+            {
+                // Console.WriteLine("Hello World!");
+                // db.Add(new Person { Name = "Matt", Age = 40 });
+                // db.SaveChanges();
+
+                // var person = db.People
+                var people = db.People
+                    .OrderBy(person => person.PersonId)
+                    // .Last();
+                    .ToArray();
+                // Console.WriteLine(person.Age);
+                Console.WriteLine(db.People.OrderBy(person => person.PersonId).ToArray());
+
+                // return person;
+                return people;
+            }
+            // Person p1 = new Person(1, "Matt", 40);
+            // Person p2 = new Person(2, "Sally", 32);
+            // Person p3 = new Person(3, "Zagthrop", 834);
+            // // Console.WriteLine(p1.name);
+            // return new Person[] { p1, p2, p3 };
         }
     }
 }
