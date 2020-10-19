@@ -27,7 +27,7 @@ namespace contacts.Controllers
                     // .Last();
                     .ToArray();
                 // Console.WriteLine(person.Age);
-                Console.WriteLine(db.People.OrderBy(person => person.PersonId).ToArray());
+                // Console.WriteLine(db.People.OrderBy(person => person.PersonId).ToArray());
 
                 // return person;
                 return people;
@@ -37,6 +37,24 @@ namespace contacts.Controllers
             // Person p3 = new Person(3, "Zagthrop", 834);
             // // Console.WriteLine(p1.name);
             // return new Person[] { p1, p2, p3 };
+        }
+
+        [HttpDelete]
+        [Route("{term}")]
+        public Person[] Delete(int term)
+        {
+            using (var db = new PeopleContext())
+            {
+                var deletedPerson = new Person { PersonId = term };
+                db.People.Remove(deletedPerson);
+                db.SaveChanges();
+
+                var people = db.People
+                    .OrderBy(person => person.PersonId)
+                    .ToArray();
+                return people;
+
+            }
         }
     }
 }
