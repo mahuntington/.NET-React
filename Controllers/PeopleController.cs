@@ -40,12 +40,12 @@ namespace contacts.Controllers
         }
 
         [HttpDelete]
-        [Route("{term}")]
-        public Person[] Delete(int term)
+        [Route("{id}")]
+        public Person[] Delete(int id)
         {
             using (var db = new PeopleContext())
             {
-                var deletedPerson = new Person { PersonId = term };
+                var deletedPerson = new Person { PersonId = id };
                 db.People.Remove(deletedPerson);
                 db.SaveChanges();
 
