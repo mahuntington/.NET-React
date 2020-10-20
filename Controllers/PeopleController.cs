@@ -56,5 +56,21 @@ namespace contacts.Controllers
 
             }
         }
+
+        [HttpPost]
+        public Person[] Post([FromBody]Person newPerson)
+        {
+            using (var db = new PeopleContext())
+            {
+                db.People.Add(newPerson);
+                db.SaveChanges();
+
+                var people = db.People
+                    .OrderBy(person => person.PersonId)
+                    .ToArray();
+                return people;
+
+            }
+        }
     }
 }
