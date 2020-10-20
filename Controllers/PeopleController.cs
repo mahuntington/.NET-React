@@ -72,5 +72,24 @@ namespace contacts.Controllers
 
             }
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public Person[] Put(int id, [FromBody]Person updatedPerson)
+        {
+            using (var db = new PeopleContext())
+            {
+                var foundPerson = db.People.SingleOrDefault(person => person.PersonId == id);
+                foundPerson.Name = updatedPerson.Name;
+                foundPerson.Age = updatedPerson.Age;
+                db.SaveChanges();
+
+                var people = db.People
+                    .OrderBy(person => person.PersonId)
+                    .ToArray();
+                return people;
+
+            }
+        }
     }
 }
